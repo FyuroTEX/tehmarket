@@ -13,7 +13,7 @@ import {
   Sidebar
 } from 'semantic-ui-react';
 
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const getWidth = () => {
   const isSSR = typeof window === 'undefined';
@@ -21,17 +21,15 @@ const getWidth = () => {
   return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth;
 };
 class HeaderBar extends Component {
-  state = {
-    activeItem: 'Home'
-  };
+  state = {};
 
   hideFixedMenu = () => this.setState({ fixed: false });
   showFixedMenu = () => this.setState({ fixed: true });
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+
   render() {
     const { children } = this.props;
     const { fixed } = this.state;
-    const { activeItem } = this.state;
+
     return (
       <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
         <Visibility
@@ -41,7 +39,8 @@ class HeaderBar extends Component {
           <Segment
             // inverted
             textAlign="center"
-            //  style={{ height: 300, padding: '1em 0em' }}
+            style={{ paddingTop: '2px' }}
+            //  style={{ padding: '1em 0em' }}
             vertical>
             <Menu
               fixed={fixed ? 'top' : null}
@@ -49,26 +48,18 @@ class HeaderBar extends Component {
               pointing={!fixed}
               secondary={!fixed}
               // style={{ height: 43 }}
+
               size="large">
               <Container>
-                
-                  <Menu.Item as={NavLink} to="/"
-                    name="Home"
-                    active={activeItem === 'Home'}
-                    onClick={this.handleItemClick}>
-                    Home
-                  </Menu.Item>
-                
-                  <Menu.Item  as={NavLink} to="/products"
-                    name="Products"
-                    active={activeItem === 'Products'}
-                    onClick={this.handleItemClick}>
-                    Products
-                  </Menu.Item>
-                
-                <Menu.Item>
-                  <img src="logo.png" alt="logo" />
+                <Menu.Item as={NavLink} exact to="/">
+                  Home
                 </Menu.Item>
+
+                <Menu.Item as={NavLink} to="/products">
+                  Products
+                </Menu.Item>
+
+                <Menu.Item>Point</Menu.Item>
                 <Dropdown item text="Товары" simple>
                   <Dropdown.Menu>
                     <Dropdown.Item>Телефоны</Dropdown.Item>
@@ -102,10 +93,7 @@ HeaderBar.propTypes = {
 };
 
 class MobileContainer extends Component {
-  state = {
-    // activeItem: math
-  };
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  state = {};
 
   handleSidebarHide = () => this.setState({ sidebarOpened: false });
 
@@ -114,7 +102,6 @@ class MobileContainer extends Component {
   render() {
     const { children } = this.props;
     const { sidebarOpened } = this.state;
-    const { activeItem } = this.state;
 
     return (
       <Responsive
@@ -128,22 +115,14 @@ class MobileContainer extends Component {
           onHide={this.handleSidebarHide}
           vertical
           visible={sidebarOpened}>
-          
-            <Menu.Item as={Link} to="/"
-              name="Home"
-              active={activeItem === 'Home'}
-              onClick={this.handleItemClick}>
-              Home
-            </Menu.Item>
-          
-          
-            <Menu.Item as={Link} to="/products"
-              name="Products"
-              active={activeItem === 'Products'}
-              onClick={this.handleItemClick}>
-              Products
-            </Menu.Item>
-          
+          <Menu.Item as={NavLink} exact to="/">
+            Home
+          </Menu.Item>
+
+          <Menu.Item as={NavLink} to="/products">
+            Products
+          </Menu.Item>
+
           <Menu.Item as="a">Company</Menu.Item>
           <Menu.Item as="a">Careers</Menu.Item>
           <Menu.Item as="a">Log in</Menu.Item>
