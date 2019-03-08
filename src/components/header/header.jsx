@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import './header.css';
 import React, { Component } from 'react';
 import {
   Button,
@@ -12,10 +13,7 @@ import {
   Sidebar
 } from 'semantic-ui-react';
 
-// import React, { Component } from 'react';
-// import { Menu, Dropdown } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-// import './header.css';
+import { Link, NavLink } from 'react-router-dom';
 
 const getWidth = () => {
   const isSSR = typeof window === 'undefined';
@@ -43,32 +41,34 @@ class HeaderBar extends Component {
           <Segment
             // inverted
             textAlign="center"
-            // style={{ minHeight: 100, padding: '1em 0em' }}
+            //  style={{ height: 300, padding: '1em 0em' }}
             vertical>
             <Menu
               fixed={fixed ? 'top' : null}
               // inverted={!fixed}
               pointing={!fixed}
               secondary={!fixed}
+              // style={{ height: 43 }}
               size="large">
               <Container>
-                <Menu.Item
-                  name="Home"
-                  active={activeItem === 'Home'}
-                  onClick={this.handleItemClick}>
-                  <Link exact to="/">
+                
+                  <Menu.Item as={NavLink} to="/"
+                    name="Home"
+                    active={activeItem === 'Home'}
+                    onClick={this.handleItemClick}>
                     Home
-                  </Link>
+                  </Menu.Item>
+                
+                  <Menu.Item  as={NavLink} to="/products"
+                    name="Products"
+                    active={activeItem === 'Products'}
+                    onClick={this.handleItemClick}>
+                    Products
+                  </Menu.Item>
+                
+                <Menu.Item>
+                  <img src="logo.png" alt="logo" />
                 </Menu.Item>
-
-                <Menu.Item
-                  name="Products"
-                  active={activeItem === 'Products'}
-                  onClick={this.handleItemClick}>
-                  <Link to="/products">Products</Link>
-                </Menu.Item>
-
-                <Menu.Item><img src='logo.png' /></Menu.Item>
                 <Dropdown item text="Товары" simple>
                   <Dropdown.Menu>
                     <Dropdown.Item>Телефоны</Dropdown.Item>
@@ -77,12 +77,14 @@ class HeaderBar extends Component {
                   </Dropdown.Menu>
                 </Dropdown>
                 <Menu.Item position="right">
-                  <Button as="a">Log in</Button>
+                  <Button as="a">Cost</Button>
                   <Button
                     as="a"
+                    basic
+                    color="blue"
                     primary={fixed}
                     style={{ marginLeft: '0.5em' }}>
-                    Sign Up
+                    Cart
                   </Button>
                 </Menu.Item>
               </Container>
@@ -98,55 +100,12 @@ class HeaderBar extends Component {
 HeaderBar.propTypes = {
   children: PropTypes.node
 };
-//  class HeaderBar extends Component {
-//   state = {
-//     activeItem: 'Home',
-//   };
-
-//   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
-
-//   render() {
-//     const { activeItem } = this.state;
-
-//     return (
-//       <Menu>
-//         <Link exact to="/">
-//           <Menu.Item
-//             name="Home"
-//             active={activeItem === 'Home'}
-//             onClick={this.handleItemClick}>
-//             Home
-//           </Menu.Item>
-//         </Link>
-//         <Link to="/products">
-//           <Menu.Item
-//             name="Products"
-//             active={activeItem === 'Products'}
-//             onClick={this.handleItemClick}>
-//             Products
-//           </Menu.Item>
-//         </Link>
-
-//         <Dropdown item text="Language">
-//           <Dropdown.Menu>
-//             <Dropdown.Item>English</Dropdown.Item>
-//             <Dropdown.Item>Russian</Dropdown.Item>
-//             <Dropdown.Item>Spanish</Dropdown.Item>
-//           </Dropdown.Menu>
-//         </Dropdown>
-
-//         <Menu.Menu position="right">
-//           <Menu.Item name="Cost">Cost</Menu.Item>
-
-//           <Menu.Item name="Cart">Cart</Menu.Item>
-//         </Menu.Menu>
-//       </Menu>
-//     );
-//   }
-// }
 
 class MobileContainer extends Component {
-  state = {};
+  state = {
+    // activeItem: math
+  };
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   handleSidebarHide = () => this.setState({ sidebarOpened: false });
 
@@ -155,6 +114,7 @@ class MobileContainer extends Component {
   render() {
     const { children } = this.props;
     const { sidebarOpened } = this.state;
+    const { activeItem } = this.state;
 
     return (
       <Responsive
@@ -168,10 +128,22 @@ class MobileContainer extends Component {
           onHide={this.handleSidebarHide}
           vertical
           visible={sidebarOpened}>
-          <Menu.Item as="a" active>
-            Home
-          </Menu.Item>
-          <Menu.Item as="a">Work</Menu.Item>
+          
+            <Menu.Item as={Link} to="/"
+              name="Home"
+              active={activeItem === 'Home'}
+              onClick={this.handleItemClick}>
+              Home
+            </Menu.Item>
+          
+          
+            <Menu.Item as={Link} to="/products"
+              name="Products"
+              active={activeItem === 'Products'}
+              onClick={this.handleItemClick}>
+              Products
+            </Menu.Item>
+          
           <Menu.Item as="a">Company</Menu.Item>
           <Menu.Item as="a">Careers</Menu.Item>
           <Menu.Item as="a">Log in</Menu.Item>
@@ -182,7 +154,7 @@ class MobileContainer extends Component {
           <Segment
             // inverted
             textAlign="center"
-            // style={{ maxHeight: '100vh' , padding: '1em 0em' }}
+            style={{ minHeight: '100vh', padding: '1em 0em' }}
             vertical>
             <Container>
               <Menu pointing secondary size="large">
@@ -190,9 +162,13 @@ class MobileContainer extends Component {
                   <Icon name="sidebar" />
                 </Menu.Item>
                 <Menu.Item position="right">
-                  <Button as="a">Log in</Button>
-                  <Button as="a" style={{ marginLeft: '0.5em' }}>
-                    Sign Up
+                  <Button as="a">Cost</Button>
+                  <Button
+                    as="a"
+                    style={{ marginLeft: '0.5em' }}
+                    basic
+                    color="blue">
+                    Cart
                   </Button>
                 </Menu.Item>
               </Menu>
@@ -216,24 +192,3 @@ const HeaderMenu = ({ children }) => (
   </div>
 );
 export default HeaderMenu;
-
-// const Header = () => (
-//   <Menu className="nav">
-//     <Menu.Item  name="browse">
-//       <NavLink exact to="/">
-//         Home
-//       </NavLink>
-//     </Menu.Item>
-
-//     <Menu.Item  name="submit" >
-//       <NavLink to="/products">Products</NavLink>
-//     </Menu.Item>
-
-//     <Menu.Menu position="right">
-//       <Menu.Item name="signup">Cost</Menu.Item>
-
-//       <Menu.Item name="help">Cart</Menu.Item>
-//     </Menu.Menu>
-//   </Menu>
-// );
-// export default Header;
