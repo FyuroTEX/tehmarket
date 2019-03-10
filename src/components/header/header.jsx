@@ -10,7 +10,8 @@ import {
   Menu,
   Responsive,
   Segment,
-  Sidebar
+  Sidebar,
+  Sticky
 } from 'semantic-ui-react';
 
 import { NavLink } from 'react-router-dom';
@@ -31,11 +32,15 @@ class HeaderBar extends Component {
     const { fixed } = this.state;
 
     return (
-      <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
+      <Responsive
+        getWidth={getWidth}
+        minWidth={Responsive.onlyTablet.minWidth}
+      >
         <Visibility
           once={false}
           onBottomPassed={this.showFixedMenu}
-          onBottomPassedReverse={this.hideFixedMenu}>
+        onBottomPassedReverse={this.hideFixedMenu}
+        >
           <Segment
             // inverted
             textAlign="center"
@@ -80,10 +85,13 @@ class HeaderBar extends Component {
                 </Menu.Item>
               </Container>
             </Menu>
-            {children}
+           
           </Segment>
+           
         </Visibility>
-      </Responsive>
+        { children }
+      </Responsive> 
+     
     );
   }
 }
@@ -94,7 +102,7 @@ HeaderBar.propTypes = {
 
 class MobileContainer extends Component {
   state = {};
-
+  
   handleSidebarHide = () => this.setState({ sidebarOpened: false });
 
   handleToggle = () => this.setState({ sidebarOpened: true });
@@ -102,9 +110,10 @@ class MobileContainer extends Component {
   render() {
     const { children } = this.props;
     const { sidebarOpened } = this.state;
-
+    
     return (
       <Responsive
+      
         as={Sidebar.Pushable}
         getWidth={getWidth}
         maxWidth={Responsive.onlyMobile.maxWidth}>
@@ -112,6 +121,7 @@ class MobileContainer extends Component {
           as={Menu}
           animation="push"
           // inverted
+          
           onHide={this.handleSidebarHide}
           vertical
           visible={sidebarOpened}>
@@ -129,14 +139,30 @@ class MobileContainer extends Component {
           <Menu.Item as="a">Sign Up</Menu.Item>
         </Sidebar>
 
-        <Sidebar.Pusher dimmed={sidebarOpened}>
+        <Sidebar.Pusher dimmed={sidebarOpened} >
+        {/* <Visibility
+          once={false}
+          onBottomPassed={this.showFixedMenu}
+        onBottomPassedReverse={this.hideFixedMenu}
+        > */}
           <Segment
+      
+            
             // inverted
             textAlign="center"
-            style={{ minHeight: '100vh', padding: '1em 0em' }}
+            style={{
+              minHeight: '100vh',
+              padding: '1em 0em'
+            }}
             vertical>
-            <Container>
-              <Menu pointing secondary size="large">
+            <Container style={{ marginTop: '7em' }}>
+              <Menu
+                pointing
+                secondary
+                size="large"
+                fixed='top'
+                
+               >
                 <Menu.Item onClick={this.handleToggle}>
                   <Icon name="sidebar" />
                 </Menu.Item>
@@ -151,10 +177,12 @@ class MobileContainer extends Component {
                   </Button>
                 </Menu.Item>
               </Menu>
+              
             </Container>
             {children}
           </Segment>
-        </Sidebar.Pusher>
+          {/* </Visibility> */}
+        </Sidebar.Pusher> 
       </Responsive>
     );
   }
@@ -166,8 +194,11 @@ MobileContainer.propTypes = {
 
 const HeaderMenu = ({ children }) => (
   <div>
-    <HeaderBar>{children}</HeaderBar>
-    <MobileContainer>{children}</MobileContainer>
+    
+      <HeaderBar>{children}</HeaderBar>
+  {/* <Sticky> */}
+      <MobileContainer>{children}</MobileContainer>
+    {/* </Sticky> */}
   </div>
 );
 export default HeaderMenu;
