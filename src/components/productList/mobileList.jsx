@@ -7,15 +7,14 @@ import MobileCard from '../productCard/mobileCard';
 class ProductList extends Component {
   state = {
     mobile: [],
-    isLoading: false,
-    
+    isLoading: false
   };
 
   componentWillMount() {
     this.setState({ isLoading: true });
     axios.get('/mobile.json').then(res => {
       const mobile = res.data;
-      this.setState({ mobile: mobile, isLoading:false });
+      this.setState({ mobile: mobile, isLoading: false });
     });
   }
 
@@ -23,15 +22,17 @@ class ProductList extends Component {
     const { mobile } = this.state;
     const { isLoading } = this.state;
     return (
-      <Container>
+      <Container
+        style={{ marginTop: '15px' }}
+      >
         <Grid doubling columns={4} stretched>
-          
-          {isLoading ? <Dimmer active>
-        <Loader content='Loading' />
-      </Dimmer> :
-            mobile.map(mobi => (
-            <MobileCard key={mobi.id} {...mobi} />
-          ))}
+          {isLoading ? (
+            <Dimmer active inverted>
+              <Loader size='big' content="Loading..." />
+            </Dimmer>
+          ) : (
+            mobile.map(mobi => <MobileCard key={mobi.id} {...mobi} />)
+          )}
         </Grid>
       </Container>
     );

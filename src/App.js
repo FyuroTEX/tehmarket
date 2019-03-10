@@ -5,9 +5,9 @@ import './App.css';
 const App = ({ children }) => (
   <Fragment>
     <Container>
-      
+      <Sticky>
         <HeaderMenu />
-      
+      </Sticky>
         {children}
       
     </Container>
