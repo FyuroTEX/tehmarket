@@ -22,13 +22,11 @@ class ProductList extends Component {
     const { mobile } = this.state;
     const { isLoading } = this.state;
     return (
-      <Container
-        style={{ marginTop: '15px' }}
-      >
+      <Container style={{ marginTop: '15px' }}>
         <Grid doubling columns={4} stretched>
           {isLoading ? (
             <Dimmer active inverted>
-              <Loader size='big' content="Loading..." />
+              <Loader size="big" content="Loading..." />
             </Dimmer>
           ) : (
             mobile.map(mobi => <MobileCard key={mobi.id} {...mobi} />)

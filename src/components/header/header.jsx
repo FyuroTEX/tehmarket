@@ -1,23 +1,19 @@
 import PropTypes from 'prop-types';
 import './header.css';
-import React, { Component } from 'react';
-import {
-  Button,
-  Container,
-  Visibility,
-  Icon,
-  Dropdown,
-  Menu,
-  Responsive,
-  Segment,
-  Sidebar,
-  Sticky
-} from 'semantic-ui-react';
+import React from 'react';
+import { Button, Dropdown, Menu, Segment } from 'semantic-ui-react';
 
 import { NavLink } from 'react-router-dom';
 
 const HeaderBar = () => (
+  <Segment  
+    // inverted
+    
+   
+    style={{ padding: 0}}
+  >
   <Menu
+  // inverted
     stackable
     secondary
     pointing
@@ -47,7 +43,8 @@ const HeaderBar = () => (
         Cart
       </Button>
     </Menu.Item>
-  </Menu>
+    </Menu>
+    </Segment>
 );
 
 HeaderBar.propTypes = {
