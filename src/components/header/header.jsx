@@ -1,54 +1,146 @@
-import PropTypes from 'prop-types';
-import './header.css';
-import React from 'react';
-import { Button, Dropdown, Menu, Segment } from 'semantic-ui-react';
+import _ from "lodash";
+import React, { Component } from "react";
 
+import {
+  Container,
+  Icon,
+  Image,
+  Menu,
+  Sidebar,
+  Responsive
+} from "semantic-ui-react";
 import { NavLink } from 'react-router-dom';
 
-const HeaderBar = () => (
-  <Segment  
-    // inverted
-    
-   
-    style={{ padding: 0}}
-  >
-  <Menu
-  // inverted
-    stackable
-    secondary
-    pointing
-    // fixed='top'
-  >
-    <Menu.Item as={NavLink} exact to="/">
-      Home
-    </Menu.Item>
+const NavBarMobile = ({
+  children,
+  leftItems,
+  onPusherClick,
+  onToggle,
+  rightItems,
+  visible
+}) => (
+  <Sidebar.Pushable>
+    <Sidebar
+      as={Menu}
+      animation="overlay"
+      icon="labeled"
+      inverted
+      
+      vertical
+      visible={visible}
+      >
+        <Menu.Item as={NavLink} exact to="/">
+    Home
+  </Menu.Item>
 
-    <Menu.Item as={NavLink} to="/mobile">
-      Mobile
-    </Menu.Item>
+  <Menu.Item as={NavLink} to="/mobile">
+    Mobile
+  </Menu.Item>
+      </Sidebar>
+    <Sidebar.Pusher
+      dimmed={visible}
+      onClick={onPusherClick}
+      style={{ minHeight: "100vh" }}
+    >
+      <Menu fixed="top" inverted>
+        <Menu.Item>
+          <Image size="mini" src="https://react.semantic-ui.com/logo.png" />
+        </Menu.Item>
+        <Menu.Item onClick={onToggle}>
+          <Icon name="sidebar" />
+        </Menu.Item>
+        <Menu.Menu position="right">
+        <Menu.Item as={NavLink} exact to="/">
+            Home
+          </Menu.Item>
 
-    <Menu.Item>Point</Menu.Item>
-    <Dropdown item text="Товары" simple>
-      <Dropdown.Menu>
-        <Dropdown.Item as={NavLink} to="/mobile">
-          Телефоны
-        </Dropdown.Item>
-        <Dropdown.Item>Планшеты</Dropdown.Item>
-        <Dropdown.Item>Консоли</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-    <Menu.Item position="right">
-      <Button as="a">Cost</Button>
-      <Button as="a" basic color="blue" style={{ marginLeft: '0.5em' }}>
-        Cart
-      </Button>
-    </Menu.Item>
-    </Menu>
-    </Segment>
+          <Menu.Item as={NavLink} to="/mobile">
+            Mobile
+          </Menu.Item>
+
+          
+        </Menu.Menu>
+      </Menu>
+      {children}
+    </Sidebar.Pusher>
+  </Sidebar.Pushable>
 );
 
-HeaderBar.propTypes = {
-  children: PropTypes.node
-};
+const NavBarDesktop = ({ leftItems, rightItems }) => (
+  <Menu fixed="top" inverted>
+    <Menu.Item>
+      <Image size="mini" src="https://react.semantic-ui.com/logo.png" />
+    </Menu.Item>
+    <Menu.Item as={NavLink} exact to="/">
+            Home
+          </Menu.Item>
 
-export default HeaderBar;
+          <Menu.Item as={NavLink} to="/mobile">
+            Mobile
+          </Menu.Item>
+
+          <Menu.Item as="a">Company</Menu.Item>
+          <Menu.Item as="a">Careers</Menu.Item>
+          <Menu.Item as="a">Log in</Menu.Item>
+          <Menu.Item as="a">Sign Up</Menu.Item>
+        
+    <Menu.Menu position="right">
+    
+          <Menu.Item as="a">Log in</Menu.Item>
+          <Menu.Item as="a">Sign Up</Menu.Item>
+        
+    </Menu.Menu>
+  </Menu>
+);
+
+const NavBarChildren = ({ children }) => (
+  <Container style={{ marginTop: "5em" }}>{children}</Container>
+);
+
+class NavBar extends Component {
+  state = {
+    visible: false
+  };
+
+  handlePusher = () => {
+    const { visible } = this.state;
+
+    if (visible) this.setState({ visible: false });
+  };
+
+  handleToggle = () => this.setState({ visible: !this.state.visible });
+
+  render() {
+    const { children, leftItems, rightItems } = this.props;
+    const { visible } = this.state;
+
+    return (
+      <div>
+        <Responsive {...Responsive.onlyMobile}>
+          <NavBarMobile
+            leftItems={leftItems}
+            onPusherClick={this.handlePusher}
+            onToggle={this.handleToggle}
+            rightItems={rightItems}
+            visible={visible}
+          >
+            <NavBarChildren>{children}</NavBarChildren>
+          </NavBarMobile>
+        </Responsive>
+        <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+          <NavBarDesktop />
+          <NavBarChildren>{children}</NavBarChildren>
+        </Responsive>
+      </div>
+    );
+  }
+}
+
+
+
+const HeaderMenu = ({children}) => (
+  <NavBar>
+    {children}
+  </NavBar>
+);
+export default HeaderMenu;

@@ -5,10 +5,12 @@ import './App.css';
 const App = ({ children }) => (
   <Fragment>
     <Container>
-      <Sticky>
-        <HeaderMenu />
-      </Sticky>
-        {children}
+      {/* <Sticky> */}
+      <HeaderMenu>
+      {children}
+        </HeaderMenu>
+      {/* </Sticky> */}
+        {/* {children} */}
       
     </Container>
   </Fragment>

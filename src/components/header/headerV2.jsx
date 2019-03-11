@@ -11,7 +11,10 @@ import {
   Responsive,
   Segment,
   Sidebar,
-  Sticky
+  Sticky,
+  Header,
+  Image
+ 
 } from 'semantic-ui-react';
 
 import { NavLink } from 'react-router-dom';
@@ -104,93 +107,55 @@ HeaderBar.propTypes = {
 };
 
 class MobileContainer extends Component {
-  state = {};
-
-  handleSidebarHide = () => this.setState({ sidebarOpened: false });
-
-  handleToggle = () => this.setState({ sidebarOpened: true });
-  hideFixedMenu = () => this.setState({ fixed: false });
-  showFixedMenu = () => this.setState({ fixed: true });
+  constructor(props) {
+    super(props);
+    this.state = { menuVisible: false };
+  }
   render() {
     const { children } = this.props;
-    const { sidebarOpened } = this.state;
-    const { fixed } = this.state;
+    
+    const { visible } = this.state
     return (
+      
       <Responsive
-        as={Sidebar.Pushable}
+        as={Sidebar.Pusher}
         getWidth={getWidth}
-        maxWidth={Responsive.onlyMobile.maxWidth}>
-        <Sidebar
-          as={Menu}
-          animation="push"
-          // style={{minHeight: '100vh'}}
-          onHide={this.handleSidebarHide}
-          vertical
-          visible={sidebarOpened}>
-
-          <Menu.Item as={NavLink} exact to="/">
-            Home
-          </Menu.Item>
-
-          <Menu.Item as={NavLink} to="/mobile">
-            Mobile
-          </Menu.Item>
-
-          <Menu.Item as="a">Company</Menu.Item>
-          <Menu.Item as="a">Careers</Menu.Item>
-          <Menu.Item as="a">Log in</Menu.Item>
-          <Menu.Item as="a">Sign Up</Menu.Item>
-        </Sidebar>
+        maxWidth={Responsive.onlyMobile.maxWidth}
+      >
+       
+       <Menu secondary  attached="top">
+        <Menu.Item onClick={() => this.setState({ menuVisible: !this.state.menuVisible })} >
+          <Icon name="sidebar" />Fffff
+          </Menu.Item>  
+          <Menu.Item position='right'>
+                  <Button as='a' >
+                    Log in
+                  </Button>
+                  <Button as='a'  style={{ marginLeft: '0.5em' }}>
+                    Sign Up
+                  </Button>
+                </Menu.Item>  
+      </Menu>
+    <Sidebar.Pushable as={Segment} attached="bottom">
+      <Sidebar width='thin' as={Menu} animation="uncover" visible={this.state.menuVisible} icon="labeled" vertical inline inverted>
+        <Menu.Item><Icon name="home" />Home</Menu.Item>
+        <Menu.Item><Icon name="block layout" />Topics</Menu.Item>
+        <Menu.Item><Icon name="smile" />Friends</Menu.Item>
+        <Menu.Item><Icon name="calendar" />History</Menu.Item>    
+      </Sidebar>
+       <Sidebar.Pusher dimmed={this.state.menuVisible}>
+            <Segment basic>
+              {children}
+            </Segment>
+       </Sidebar.Pusher>
+    </Sidebar.Pushable>
+        </Responsive>
         
-        <Sidebar.Pusher dimmed={sidebarOpened}
-          style={{
-                  minHeight: '100vh'
-                  
-              }}
-        >
-          <Segment>
-          <Menu
-            pointing
-            secondary
-            size="large"
-            // fixed={fixed ? 'top' : null}
-            // inverted={!fixed}
-            pointing={!fixed}
-            secondary={!fixed}
-            fixed="top"
-            style={{ position: 'fixed'
-          }}
-            sticky>
-            <Menu.Item onClick={this.handleToggle}>
-              <Icon name="sidebar" />
-            </Menu.Item>
-            <Menu.Item position="right">
-              <Button as="a">Cost</Button>
-              <Button as="a" style={{ marginLeft: '0.5em' }} basic color="blue">
-                Cart
-              </Button>
-            </Menu.Item>
-          </Menu>{children}
-        </Segment>
-            {/* <Segment
-                // inverted
-                textAlign="center"
-                style={{
-                  minHeight: '100vh',
-                  // minHeight: 'auto',
-                  padding: '1em 0em'
-                }}
-                vertical
-          > */}
-          
-            
-          {/* </Segment> */}
-        </Sidebar.Pusher>
-      </Responsive>
-    );
+    )
   }
 }
-
+    
+  
 MobileContainer.propTypes = {
   children: PropTypes.node
 };
@@ -198,9 +163,9 @@ MobileContainer.propTypes = {
 const HeaderMenu = ({ children }) => (
   <div>
     <HeaderBar>{children}</HeaderBar>
-    {/* <Sticky> */}
+   
     <MobileContainer>{children}</MobileContainer>
-    {/* </Sticky> */}
+    
   </div>
 );
 export default HeaderMenu;
