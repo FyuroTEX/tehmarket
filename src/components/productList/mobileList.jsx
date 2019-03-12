@@ -22,7 +22,9 @@ class ProductList extends Component {
     const { mobile } = this.state;
     const { isLoading } = this.state;
     return (
-      <Container style={{ marginTop: '15px' }}>
+      <Container
+        // style={{ marginTop: '15px' }}
+      >
         <Grid doubling columns={4} stretched>
           {isLoading ? (
             <Dimmer active inverted>

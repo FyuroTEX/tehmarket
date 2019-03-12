@@ -1,48 +1,51 @@
-import _ from "lodash";
-import React, { Component } from "react";
-
+import React, { Component } from 'react';
+import './header.css';
 import {
   Container,
   Icon,
   Image,
   Menu,
   Sidebar,
-  Responsive
-} from "semantic-ui-react";
+  Responsive,
+  Button,
+  Sticky
+} from 'semantic-ui-react';
+
 import { NavLink } from 'react-router-dom';
 
-const NavBarMobile = ({
-  children,
-  leftItems,
-  onPusherClick,
-  onToggle,
-  rightItems,
-  visible
-}) => (
+const NavBarMobile = ({ children, onPusherClick, onToggle, visible }) => (
+  
   <Sidebar.Pushable>
     <Sidebar
       as={Menu}
       animation="overlay"
       icon="labeled"
       inverted
-      
       vertical
       visible={visible}
-      >
-        <Menu.Item as={NavLink} exact to="/">
-    Home
-  </Menu.Item>
+      
+    >
+      
+      <Menu.Item as={NavLink} exact to="/">
+        Home2
+      </Menu.Item>
 
-  <Menu.Item as={NavLink} to="/mobile">
-    Mobile
-  </Menu.Item>
-      </Sidebar>
+      <Menu.Item as={NavLink} to="/mobile">
+        Mobile2
+      </Menu.Item>
+
+    </Sidebar>
+    
     <Sidebar.Pusher
       dimmed={visible}
       onClick={onPusherClick}
-      style={{ minHeight: "100vh" }}
+      style={{ minHeight: '100vh'}}
+      
     >
-      <Menu fixed="top" inverted>
+       
+      <Menu
+      
+        inverted>
         <Menu.Item>
           <Image size="mini" src="https://react.semantic-ui.com/logo.png" />
         </Menu.Item>
@@ -50,51 +53,53 @@ const NavBarMobile = ({
           <Icon name="sidebar" />
         </Menu.Item>
         <Menu.Menu position="right">
-        <Menu.Item as={NavLink} exact to="/">
+          <Menu.Item as={NavLink} exact to="/">
             Home
           </Menu.Item>
 
           <Menu.Item as={NavLink} to="/mobile">
             Mobile
           </Menu.Item>
-
-          
         </Menu.Menu>
       </Menu>
+      <Sticky as={Button}>
+      
+      C
+</Sticky>
       {children}
+      
     </Sidebar.Pusher>
-  </Sidebar.Pushable>
+    </Sidebar.Pushable>
+    
 );
 
-const NavBarDesktop = ({ leftItems, rightItems }) => (
+const NavBarDesktop = () => (
   <Menu fixed="top" inverted>
     <Menu.Item>
       <Image size="mini" src="https://react.semantic-ui.com/logo.png" />
     </Menu.Item>
     <Menu.Item as={NavLink} exact to="/">
-            Home
-          </Menu.Item>
+      Home
+    </Menu.Item>
 
-          <Menu.Item as={NavLink} to="/mobile">
-            Mobile
-          </Menu.Item>
+    <Menu.Item as={NavLink} to="/mobile">
+      Mobile
+    </Menu.Item>
 
-          <Menu.Item as="a">Company</Menu.Item>
-          <Menu.Item as="a">Careers</Menu.Item>
-          <Menu.Item as="a">Log in</Menu.Item>
-          <Menu.Item as="a">Sign Up</Menu.Item>
-        
+    <Menu.Item as="a">Company</Menu.Item>
+    <Menu.Item as="a">Careers</Menu.Item>
+    <Menu.Item as="a">Log in</Menu.Item>
+    <Menu.Item as="a">Sign Up</Menu.Item>
+
     <Menu.Menu position="right">
-    
-          <Menu.Item as="a">Log in</Menu.Item>
-          <Menu.Item as="a">Sign Up</Menu.Item>
-        
+      <Menu.Item as="a">Log in</Menu.Item>
+      <Menu.Item as="a">Sign Up</Menu.Item>
     </Menu.Menu>
   </Menu>
 );
 
 const NavBarChildren = ({ children }) => (
-  <Container style={{ marginTop: "5em" }}>{children}</Container>
+  <Container style={{ marginTop: '5em' }}>{children}</Container>
 );
 
 class NavBar extends Component {
@@ -111,19 +116,19 @@ class NavBar extends Component {
   handleToggle = () => this.setState({ visible: !this.state.visible });
 
   render() {
-    const { children, leftItems, rightItems } = this.props;
+    const { children } = this.props;
     const { visible } = this.state;
 
     return (
       <div>
         <Responsive {...Responsive.onlyMobile}>
           <NavBarMobile
-            leftItems={leftItems}
+            // style={{ position:'fixed'}}
+            
             onPusherClick={this.handlePusher}
             onToggle={this.handleToggle}
-            rightItems={rightItems}
-            visible={visible}
-          >
+            
+            visible={visible}>
             <NavBarChildren>{children}</NavBarChildren>
           </NavBarMobile>
         </Responsive>
@@ -136,11 +141,5 @@ class NavBar extends Component {
   }
 }
 
-
-
-const HeaderMenu = ({children}) => (
-  <NavBar>
-    {children}
-  </NavBar>
-);
+const HeaderMenu = ({ children }) => <NavBar>{children}</NavBar>;
 export default HeaderMenu;
