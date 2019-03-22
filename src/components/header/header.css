@@ -1,21 +1,12 @@
-/* 
-.ui.vertical.menu .item:before{
-width: 3px;
-} */
-.backTop {
-    /* display: none; */
-    z-index: 9999;
-  position: static;
-  bottom: 3em;
-  right: 3em;
-  z-index: 99;
-  border: none;
-  outline: none;
-  background-color: #babbda;
-  opacity: 0.7;
-  border-color: #2ecc71;
-  color: #fff;
-  cursor: pointer;
-  padding: 10px; 
-   border-radius: 50%; 
-}
+@media screen and (max-width: 691px) {
+  .mobileBar {
+    display: none !important;
+    
+  }
+  }
+  @media screen and (min-width: 691px) {
+    .longBar {
+      display: none !important;
+      
+    }
+    }

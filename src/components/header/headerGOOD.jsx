@@ -29,7 +29,11 @@ const HeaderBar = () => (
 
     <Menu.Item>Point</Menu.Item>
     <Dropdown item text="Товары" simple>
-      <Dropdown.Menu>
+        <Dropdown.Menu>
+          
+        <Dropdown.Item as={NavLink} exact to="/">
+        Home
+        </Dropdown.Item>
         <Dropdown.Item as={NavLink} to="/mobile">
           Телефоны
         </Dropdown.Item>

@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react';
-import HeaderMenu from './components/header/header';
+import HeaderMenu from './components/header/header.jsx';
 import { Container } from 'semantic-ui-react';
 import './App.css';
 const App = ({ children }) => (
   <Fragment>
     <Container>
       
-      <HeaderMenu>
+      <HeaderMenu/>
       {children}
-        </HeaderMenu>
+        
       
       
     </Container>
