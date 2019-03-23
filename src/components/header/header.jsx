@@ -1,7 +1,7 @@
 import React from 'react';
 import './header.css';
 import logo from './logo/logo.png';
-import { Dropdown, Image, Menu, Icon } from 'semantic-ui-react';
+import { Dropdown, Image, Menu } from 'semantic-ui-react';
 
 import { NavLink } from 'react-router-dom';
 
@@ -19,8 +19,8 @@ const HeaderMenu = () => (
         Mobile
       </Menu.Item>
       <Dropdown item icon="sidebar" simple className="longBar">
-        <Dropdown.Menu>
-          <Dropdown.Item as={NavLink} exact to="/">
+        <Dropdown.Menu styles={{width: "100wv"}}>
+          <Dropdown.Item as={NavLink} exact to="/" >
             Home
           </Dropdown.Item>
           <Dropdown.Item as={NavLink} to="/mobile">
